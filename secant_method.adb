@@ -7,7 +7,7 @@ package body Secant_Method is
    -- Variant 1: Standard Secant Method
    --------------------------------------------------------
    function Standard_Secant
-     (Func       : Objective_Function;
+     (Func       : not null access function (X : Real) return Real;
       X0         : Real;
       X1         : Real;
       Tolerance  : Real := 1.0E-7;
@@ -48,7 +48,7 @@ package body Secant_Method is
    -- Variant 2: False Position Method (Regula Falsi)
    --------------------------------------------------------
    function False_Position
-     (Func       : Objective_Function;
+     (Func       : not null access function (X : Real) return Real;
       X0         : Real;
       X1         : Real;
       Tolerance  : Real := 1.0E-7;
@@ -72,7 +72,7 @@ package body Secant_Method is
             return (B, F_B, Iter, Division_By_Zero);
          end if;
 
-         -- False Position recurrence relation (identical to Secant, but variables update differently)
+         -- False Position recurrence relation
          C := B - F_B * (B - A) / (F_B - F_A);
          F_C := Func(C);
 
