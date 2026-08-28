@@ -3,9 +3,6 @@ package Secant_Method is
    -- Strong typing for numerical precision 
    type Real is digits 15;
    
-   -- Type for the mathematical function to be evaluated
-   type Objective_Function is access function (X : Real) return Real;
-
    -- Enumeration for all possible terminal states (Edge Cases & Success)
    type Status_Type is 
      (Success, 
@@ -23,9 +20,9 @@ package Secant_Method is
 
    -- Variant 1: Standard Secant Method
    -- Open method: Uses two initial points but does not require them to bracket the root.
-   -- Fast convergence, but may fail or diverge if the function is not well-behaved.
+   -- Uses an anonymous access parameter to allow downward closures (local functions).
    function Standard_Secant
-     (Func       : Objective_Function;
+     (Func       : not null access function (X : Real) return Real;
       X0         : Real;
       X1         : Real;
       Tolerance  : Real := 1.0E-7;
@@ -33,9 +30,8 @@ package Secant_Method is
 
    -- Variant 2: False Position Method (Regula Falsi)
    -- Bracketed method: Requires initial points to bracket the root (opposite signs).
-   -- Slower convergence but guaranteed to converge if a valid bracket is provided.
    function False_Position
-     (Func       : Objective_Function;
+     (Func       : not null access function (X : Real) return Real;
       X0         : Real;
       X1         : Real;
       Tolerance  : Real := 1.0E-7;
