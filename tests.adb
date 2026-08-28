@@ -13,6 +13,7 @@ procedure Tests is
 
    -- f(x) = 5 (Flat function, no roots)
    function Func_Flat (X : Real) return Real is
+      pragma Unreferenced (X); -- Prevents the -gnatwu warning
    begin
       return 5.0;
    end Func_Flat;
